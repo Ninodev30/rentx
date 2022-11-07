@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components/native';
+/* import styled, { css } from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Logo from '@assets/logo.svg';
 
@@ -32,4 +32,4 @@ const S = {
     `
 };
 
-export default S;
+export default S; */
