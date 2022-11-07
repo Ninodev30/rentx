@@ -1,5 +1,4 @@
 import { extendTheme } from 'native-base';
-import { RFValue } from 'react-native-responsive-fontsize';
 
 const THEME = extendTheme({
     colors: {
@@ -41,12 +40,12 @@ const THEME = extendTheme({
     },
 
     fontSizes: {
-        'xs': RFValue(10),
-        'sm': RFValue(13),
-        'md': RFValue(15),
-        'lg': RFValue(20),
-        'xl': RFValue(25),
-        '2xl': RFValue(30)
+        'xs': 10,
+        'sm': 13,
+        'md': 15,
+        'lg': 20,
+        'xl': 25,
+        '2xl': 30
     }
 })
 
