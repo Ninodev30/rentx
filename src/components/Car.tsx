@@ -1,44 +1,52 @@
-import { HStack, Text, VStack, Icon } from 'native-base';
+import { HStack, Text, VStack, Icon, Image } from 'native-base';
 import { SimpleLineIcons } from '@expo/vector-icons';
+import CarTypeProps from 'src/@types/car';
+import { TouchableOpacity } from 'react-native';
 
 type Props = {
-    car?: string;
-    nameOfCar: string;
-    brand: string;
-    price: number;
-    motor: 'eletric' | 'combustion';
+    data: CarTypeProps;
+    onPress: () => void;
 }
 
-const Car: React.FC<Props> = ({ car, nameOfCar, brand, price, motor }) => {
+const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, motor, rent } }) => {
     return (
-        <HStack w='full' h={32} p={6} m={4} bgColor='white'>
-            <VStack justifyContent='space-between'>
-                <VStack>
-                    <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
-                        {brand}
-                    </Text>
-                    <Text fontFamily='mono' fontWeight='medium' fontSize='md' color='gray.700'>
-                        {nameOfCar}
-                    </Text>
-                </VStack>
-                <HStack w={24} justifyContent='space-between' alignItems='center'>
+        <TouchableOpacity onPress={onPress}>
+            <HStack h={32} p={6} mt={4} mx={4} rounded='sm' justifyContent='space-between' bgColor='white'>
+                <VStack justifyContent='space-between'>
                     <VStack>
                         <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
-                            ao dia
+                            {brand}
                         </Text>
-                        <Text fontFamily='mono' fontWeight='medium' fontSize='md' color='red.500'>
-                            {`R$ ${price}`}
+                        <Text fontFamily='mono' fontWeight='medium' fontSize='md' color='gray.700'>
+                            {name}
                         </Text>
                     </VStack>
-                    <Icon
-                        as={SimpleLineIcons}
-                        name={motor === 'eletric' ? 'energy' : 'drop'}
-                        color='gray.500'
-                        size={5}
-                    />
-                </HStack>
-            </VStack>
-        </HStack>
+                    <HStack w={24} justifyContent='space-between' alignItems='center'>
+                        <VStack>
+                            <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
+                                {rent.period}
+                            </Text>
+                            <Text fontFamily='mono' fontWeight='medium' fontSize='md' color='red.500'>
+                                {`R$ ${rent.price}`}
+                            </Text>
+                        </VStack>
+                        <Icon
+                            as={SimpleLineIcons}
+                            name={motor === 'eletric' ? 'energy' : 'drop'}
+                            color='gray.500'
+                            size={5}
+                        />
+                    </HStack>
+                </VStack>
+                <Image
+                    source={{ uri: photo }}
+                    resizeMode='contain'
+                    alt='Car photo'
+                    width={40}
+                    height={24}
+                />
+            </HStack>
+        </TouchableOpacity>
     );
 }
 
