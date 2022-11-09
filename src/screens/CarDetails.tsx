@@ -5,43 +5,51 @@ import BackIcon from '@components/BackIcon';
 import StatusBar from '@components/StatusBar';
 import Details from '@components/Details';
 
+import SpeedIcon from '@assets/speed.svg';
+import AccelerationIcon from '@assets/acceleration.svg';
+import ForceIcon from '@assets/force.svg';
+import GasolineIcon from '@assets/gasoline.svg';
+import ExchangeIcon from '@assets/exchange.svg';
+import PeopleIcon from '@assets/people.svg';
+
 const CarDetails: React.FC = () => {
     const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
 
     return (
-        <ScrollView>
+        <ScrollView flex={1} bgColor='white'>
             <StatusBar variant='dark' />
-            <VStack flex={1} p={8} pt={16} bgColor='white'>
+            <VStack px={4} pt={16} pb={8}>
                 <BackIcon
                     variant='dark'
+                    ml={4}
                     onPress={() => goBack()}
                 />
-                <VStack my={4} justifyContent='space-between' alignItems='center'>
-                    <HStack justifyContent='space-between'>
+                <VStack h={48} my={4} justifyContent='space-between'>
+                    <HStack w='full' justifyContent='space-between'>
                         <Details
-                            icon='speed'
+                            icon={<SpeedIcon width={28} height={28} />}
                             data='380km/h'
                         />
                         <Details
-                            icon='acceleration'
+                            icon={<ForceIcon width={28} height={28} />}
                             data='3.2s'
                         />
                         <Details
-                            icon='force'
+                            icon={<AccelerationIcon width={28} height={28} />}
                             data='800 HP'
                         />
                     </HStack>
-                    <HStack justifyContent='space-between'>
+                    <HStack w='full' justifyContent='space-between'>
                         <Details
-                            icon='gasoline'
+                            icon={<GasolineIcon width={28} height={24} />}
                             data='Gasolina'
                         />
                         <Details
-                            icon='exchange'
+                            icon={<ExchangeIcon width={28} height={28} />}
                             data='Auto'
                         />
                         <Details
-                            icon='people'
+                            icon={<PeopleIcon width={28} height={28} />}
                             data='2 Pessoas'
                         />
                     </HStack>

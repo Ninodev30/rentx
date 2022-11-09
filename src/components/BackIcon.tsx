@@ -1,13 +1,13 @@
-import { Icon } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
+import { Icon, IIconProps } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 
-type Props = {
+type Props = IIconProps & {
     variant: 'light' | 'dark';
     onPress: () => void;
 }
 
-const BackIcon: React.FC<Props> = ({ variant, onPress }) => {
+const BackIcon: React.FC<Props> = ({ variant, onPress, ...rest }) => {
     return (
         <TouchableOpacity>
             <Icon
@@ -16,6 +16,7 @@ const BackIcon: React.FC<Props> = ({ variant, onPress }) => {
                 onPress={onPress}
                 size={6}
                 color={variant === 'light' ? 'white' : 'gray.600'}
+                {...rest}
             />
         </TouchableOpacity>
     );

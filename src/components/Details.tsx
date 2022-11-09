@@ -1,29 +1,16 @@
+import { ReactElement } from 'react';
 import { Center, Text } from 'native-base';
-import SpeedIcon from '@assets/speed.svg';
-import AccelerationIcon from '@assets/acceleration.svg';
-import ForceIcon from '@assets/force.svg';
-import GasolineIcon from '@assets/gasoline.svg';
-import ExchangeIcon from '@assets/exchange.svg';
-import PeopleIcon from '@assets/people.svg';
+import { SvgProps } from 'react-native-svg';
 
 type Props = {
-    icon: 'speed' | 'acceleration' | 'force' | 'gasoline' | 'exchange' | 'people';
     data: string;
+    icon: ReactElement<SvgProps>;
 }
 
 const Details: React.FC<Props> = ({ icon, data }) => {
-    const renderIcon: () => JSX.Element | undefined = () => {
-        if(icon === 'speed') return <SpeedIcon width={28} height={28} />
-        if(icon === 'acceleration') return <AccelerationIcon width={28} height={28} />
-        if(icon === 'force') return <ForceIcon width={28} height={28} />
-        if(icon === 'gasoline') return <GasolineIcon width={28} height={28} />
-        if(icon === 'exchange') return <ExchangeIcon width={28} height={28} />
-        if(icon === 'people') return <PeopleIcon width={28} height={28} />
-    }
-
     return (
-        <Center w={23} h={27} bgColor='gray.200' rounded='sm'>
-            {renderIcon()}
+        <Center w={27} h={23} bgColor='gray.200' rounded='sm'>
+            {icon}
             <Text fontFamily='body' fontWeight='medium' fontSize='sm' color='gray.600' mt={3}>
                 {data}
             </Text>
