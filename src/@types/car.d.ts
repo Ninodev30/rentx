@@ -2,7 +2,7 @@ type CarTypeProps = {
     name: string;
     brand: string;
     photo: string;
-    motor: 'eletric' | 'combustion';
+    combustible: 'energy' | 'gasoline';
     rent: {
         period: string;
         price: number;

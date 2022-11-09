@@ -1,14 +1,15 @@
-import { HStack, Text, VStack, Icon, Image } from 'native-base';
-import { SimpleLineIcons } from '@expo/vector-icons';
-import CarTypeProps from 'src/@types/car';
 import { TouchableOpacity } from 'react-native';
+import { HStack, Text, VStack, Image } from 'native-base';
+import CarTypeProps from 'src/@types/car';
+import Energy from '@assets/energy.svg';
+import Gasoline from '@assets/gasoline.svg';
 
 type Props = {
     data: CarTypeProps;
     onPress: () => void;
 }
 
-const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, motor, rent } }) => {
+const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, combustible, rent } }) => {
     return (
         <TouchableOpacity onPress={onPress}>
             <HStack h={32} p={6} mt={4} mx={4} rounded='sm' justifyContent='space-between' bgColor='white'>
@@ -30,12 +31,7 @@ const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, motor, rent
                                 {`R$ ${rent.price}`}
                             </Text>
                         </VStack>
-                        <Icon
-                            as={SimpleLineIcons}
-                            name={motor === 'eletric' ? 'energy' : 'drop'}
-                            color='gray.500'
-                            size={5}
-                        />
+                        {combustible === 'energy' ? <Energy width={9} height={12} /> : <Gasoline width={9} height={12} />}
                     </HStack>
                 </VStack>
                 <Image

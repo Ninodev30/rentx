@@ -46,6 +46,10 @@ const THEME = extendTheme({
         'lg': 20,
         'xl': 25,
         '2xl': 30
+    },
+    sizes: {
+        23: 92,
+        27: 108
     }
 })
 
