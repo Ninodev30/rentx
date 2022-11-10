@@ -48,6 +48,7 @@ const THEME = extendTheme({
         '2xl': 30
     },
     sizes: {
+        14: 56,
         23: 92,
         27: 108
     }
