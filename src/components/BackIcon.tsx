@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 type Props = IIconProps & {
     variant: 'light' | 'dark';
-    onPress: () => void;
 }
 
 const BackIcon: React.FC<Props> = ({ variant, onPress, ...rest }) => {

@@ -10,7 +10,7 @@ type Props = IButtonProps & {
 const Button: React.FC<Props> = ({ title, color, pressColor, ...rest }) => {
     return (
         <ButtonNativeBase
-            w='full' h={14}
+            h={14}
             bgColor={color}
             _pressed={{ bgColor: pressColor }}
             {...rest}

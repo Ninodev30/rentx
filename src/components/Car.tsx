@@ -31,7 +31,7 @@ const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, combustible
                                 {`R$ ${rent.price}`}
                             </Text>
                         </VStack>
-                        {combustible === 'energy' ? <Energy width={9} height={12} /> : <Gasoline width={9} height={12} />}
+                        {combustible === 'energy' ? <Energy width={18} height={18} /> : <Gasoline width={18} height={18} />}
                     </HStack>
                 </VStack>
                 <Image
