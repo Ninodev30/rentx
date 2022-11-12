@@ -1,4 +1,4 @@
-import { Box, IBoxProps } from 'native-base';
+import { Box, Heading, IBoxProps } from 'native-base';
 import BackIcon from './BackIcon';
 
 type Props = IBoxProps & {
@@ -9,8 +9,21 @@ type Props = IBoxProps & {
 
 const Highlight: React.FC<Props> = ({ backIconFunction, title, subTitle, ...rest }) => {
     return (
-        <Box {...rest}>
-            <BackIcon variant='light' onPress={backIconFunction} />
+        <Box
+            w='full' h={72}
+            px={6} pt={16} pb={8}
+            bgColor='gray.900'
+            {...rest}
+        >
+            <BackIcon
+                variant='light'
+                mb={2} ml={2}
+                onPress={backIconFunction}
+            />
+            <Heading fontFamily='mono' fontWeight='semibold' fontSize='2xl' color='white' my={7}>
+                {title}
+            </Heading>
+            {subTitle}
         </Box>
     );
 }

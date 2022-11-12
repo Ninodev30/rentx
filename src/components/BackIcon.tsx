@@ -8,11 +8,10 @@ type Props = IIconProps & {
 
 const BackIcon: React.FC<Props> = ({ variant, onPress, ...rest }) => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
             <Icon
                 as={Ionicons}
                 name='chevron-back'
-                onPress={onPress}
                 size={6}
                 color={variant === 'light' ? 'white' : 'gray.600'}
                 {...rest}

@@ -1,26 +1,30 @@
 import { TouchableOpacity } from 'react-native';
-import { HStack, Text, VStack, Image } from 'native-base';
+import { HStack, Text, VStack, Image, Heading, Stack, IStackProps } from 'native-base';
 import CarTypeProps from 'src/@types/car';
 import Energy from '@assets/energy.svg';
 import Gasoline from '@assets/gasoline.svg';
 
-type Props = {
+type Props = IStackProps & {
     data: CarTypeProps;
     onPress: () => void;
 }
 
-const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, combustible, rent } }) => {
+const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, combustible, rent }, ...rest }) => {
     return (
         <TouchableOpacity onPress={onPress}>
-            <HStack h={32} p={6} mt={4} mx={4} rounded='sm' justifyContent='space-between' bgColor='white'>
+            <Stack
+                h={32} p={6}
+                flexDirection='row' justifyContent='space-between' rounded='sm' bgColor='white'
+                {...rest}
+            >
                 <VStack justifyContent='space-between'>
                     <VStack>
                         <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
                             {brand}
                         </Text>
-                        <Text fontFamily='mono' fontWeight='medium' fontSize='md' color='gray.700'>
+                        <Heading fontFamily='mono' fontWeight='medium' fontSize='md' color='gray.700'>
                             {name}
-                        </Text>
+                        </Heading>
                     </VStack>
                     <HStack w={24} justifyContent='space-between' alignItems='center'>
                         <VStack>
@@ -41,7 +45,7 @@ const Car: React.FC<Props> = ({ onPress, data: { name, brand, photo, combustible
                     width={40}
                     height={24}
                 />
-            </HStack>
+            </Stack>
         </TouchableOpacity>
     );
 }

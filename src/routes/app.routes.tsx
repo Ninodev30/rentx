@@ -3,6 +3,7 @@ import { RoutesProps } from 'src/@types/routes';
 import Home from '@screens/Home';
 import CarDetails from '@screens/CarDetails';
 import Schedules from '@screens/Schedules';
+import PickDate from '@screens/PickDate';
 
 const AppRoutes: React.FC = () => {
     const { Navigator, Screen } = createNativeStackNavigator<RoutesProps>();
@@ -20,6 +21,10 @@ const AppRoutes: React.FC = () => {
             <Screen
                 name='schedules'
                 component={Schedules}
+            />
+            <Screen
+                name='pick_date'
+                component={PickDate}
             />
         </Navigator>
     )
