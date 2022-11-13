@@ -130,6 +130,7 @@ const Home: React.FC = () => {
                         data={item}
                         mb={4}
                         onPress={() => navigate('car_details')}
+                        showRentInfo={false}
                     />
                 )}
                 showsVerticalScrollIndicator={false}

@@ -8,8 +8,8 @@ import Button from '@components/Button';
 import RoutesNavigationProps from 'src/@types/routes';
 
 const PickDate: React.FC = () => {
-    const [initialDateSelected, setInitialDateSelected] = useState<string>('18/06/2021');
-    const [finalDateSelected, setFinalDateSelected] = useState<string>('18/06/2021');
+    const [initialDateSelected, setInitialDateSelected] = useState<string>('18/06/2022');
+    const [finalDateSelected, setFinalDateSelected] = useState<string>('18/06/2022');
     const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
 
     return (

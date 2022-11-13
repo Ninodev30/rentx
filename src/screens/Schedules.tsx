@@ -61,7 +61,8 @@ const Schedules: React.FC = () => {
                         <Car
                             data={item}
                             mb={4}
-                            onPress={() => {/* navigate('car_details') */}}
+                            onPress={() => {/* navigate('car_details') */ }}
+                            showRentInfo
                         />
                     )}
                     showsVerticalScrollIndicator={false}
