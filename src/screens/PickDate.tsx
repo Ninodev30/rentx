@@ -54,7 +54,7 @@ const PickDate: React.FC = () => {
                     title='Confimar'
                     color='pink.300'
                     pressColor='pink.500'
-                    onPress={() => navigate('schedules')}
+                    onPress={() => navigate('concluded_schedule')}
                 />
             </VStack>
         </VStack>
