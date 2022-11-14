@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FlatList, HStack, Text, VStack } from "native-base";
 import { useNavigation } from '@react-navigation/native';
+import { FlatList, HStack, Text, VStack } from "native-base";
 import RoutesNavigationProps from 'src/@types/routes';
 import CarTypeProps from "src/@types/car";
 import Highlight from "@components/Highlight";

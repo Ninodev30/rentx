@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Heading, HStack, Image, ScrollView, Text, useTheme, VStack } from 'native-base';
+import { Heading, VStack, HStack, Image, ScrollView, Text, useTheme, ITheme } from 'native-base';
 import RoutesNavigationProps from 'src/@types/routes';
 import BackIcon from '@components/BackIcon';
 import StatusBar from '@components/StatusBar';
 import Details from '@components/Details';
-import PeopleIcon from '@assets/people.svg';
 import Button from '@components/Button';
 
 import SpeedIcon from '@assets/speed.svg';
@@ -14,11 +13,12 @@ import AccelerationIcon from '@assets/acceleration.svg';
 import ForceIcon from '@assets/force.svg';
 import GasolineIcon from '@assets/gasoline.svg';
 import ExchangeIcon from '@assets/exchange.svg';
+import PeopleIcon from '@assets/people.svg';
 
 const CarDetails: React.FC = () => {
     const [photoSelected, setPhotoSelected] = useState<number>(1);
     const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
-    const { colors: { gray } } = useTheme();
+    const { colors: { gray } }: ITheme = useTheme();
 
     return (
         <ScrollView flex={1} bgColor='white'>

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Box, HStack, Text, VStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
+import RoutesNavigationProps from 'src/@types/routes';
 import ArrowIcon from '@assets/arrow.svg';
 import Highlight from '@components/Highlight';
 import StatusBar from '@components/StatusBar';
 import Button from '@components/Button';
-import RoutesNavigationProps from 'src/@types/routes';
 
 const PickDate: React.FC = () => {
     const [initialDateSelected, setInitialDateSelected] = useState<string>('18/06/2022');
