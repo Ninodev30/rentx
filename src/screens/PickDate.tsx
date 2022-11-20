@@ -6,6 +6,7 @@ import ArrowIcon from '@assets/arrow.svg';
 import Highlight from '@components/Highlight';
 import StatusBar from '@components/StatusBar';
 import Button from '@components/Button';
+import Calendar from '@components/Calendar';
 
 const PickDate: React.FC = () => {
     const [initialDateSelected, setInitialDateSelected] = useState<string>('18/06/2022');
@@ -50,6 +51,7 @@ const PickDate: React.FC = () => {
                 h={80}
             />
             <VStack flex={1} px={6}>
+                <Calendar />
                 <Button
                     title='Confimar'
                     color='pink.300'
