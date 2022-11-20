@@ -21,7 +21,7 @@ const CarDetails: React.FC = () => {
     const { colors: { gray } }: ITheme = useTheme();
 
     return (
-        <ScrollView flex={1} bgColor='white'>
+        <VStack flex={1} bgColor='white'>
             <StatusBar variant='dark' />
             <VStack px={4} pt={16} pb={8}>
                 <HStack w='full' justifyContent='space-between' alignItems='center'>
@@ -33,28 +33,28 @@ const CarDetails: React.FC = () => {
                     <HStack w={14} justifyContent='space-evenly'>
                         <TouchableOpacity
                             style={{
-                                width: 8, height: 8, borderRadius: 5,
+                                width: 6, height: 6, borderRadius: 5,
                                 backgroundColor: photoSelected === 1 ? gray[700] : gray[400]
                             }}
                             onPress={() => setPhotoSelected(1)}
                         />
                         <TouchableOpacity
                             style={{
-                                width: 8, height: 8, borderRadius: 5,
+                                width: 6, height: 6, borderRadius: 5,
                                 backgroundColor: photoSelected === 2 ? gray[700] : gray[400]
                             }}
                             onPress={() => setPhotoSelected(2)}
                         />
                         <TouchableOpacity
                             style={{
-                                width: 8, height: 8, borderRadius: 5,
+                                width: 6, height: 6, borderRadius: 5,
                                 backgroundColor: photoSelected === 3 ? gray[700] : gray[400]
                             }}
                             onPress={() => setPhotoSelected(3)}
                         />
                         <TouchableOpacity
                             style={{
-                                width: 8, height: 8, borderRadius: 5,
+                                width: 6, height: 6, borderRadius: 5,
                                 backgroundColor: photoSelected === 4 ? gray[700] : gray[400]
                             }}
                             onPress={() => setPhotoSelected(4)}
@@ -70,57 +70,59 @@ const CarDetails: React.FC = () => {
                     my={8}
                     alignSelf='center'
                 />
-                <HStack w='full' h={10} px={2} justifyContent='space-between' alignItems='center'>
-                    <VStack justifyContent='space-between'>
-                        <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
-                            Lamborghini
-                        </Text>
-                        <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='gray.700' textTransform='capitalize'>
-                            Huracan
-                        </Heading>
-                    </VStack>
-                    <VStack justifyContent='space-between'>
-                        <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
-                            ao dia
-                        </Text>
-                        <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='red.500' textTransform='capitalize'>
-                            R$ 580
-                        </Heading>
-                    </VStack>
-                </HStack>
-                <VStack h={48} my={4} justifyContent='space-between'>
-                    <HStack w='full' justifyContent='space-between'>
-                        <Details
-                            icon={<SpeedIcon width={28} height={28} />}
-                            data='380km/h'
-                        />
-                        <Details
-                            icon={<ForceIcon width={28} height={28} />}
-                            data='3.2s'
-                        />
-                        <Details
-                            icon={<AccelerationIcon width={28} height={28} />}
-                            data='800 HP'
-                        />
+                <ScrollView>
+                    <HStack w='full' h={10} px={2} justifyContent='space-between' alignItems='center'>
+                        <VStack justifyContent='space-between'>
+                            <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
+                                Lamborghini
+                            </Text>
+                            <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='gray.700' textTransform='capitalize'>
+                                Huracan
+                            </Heading>
+                        </VStack>
+                        <VStack justifyContent='space-between'>
+                            <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
+                                ao dia
+                            </Text>
+                            <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='red.500' textTransform='capitalize'>
+                                R$ 580
+                            </Heading>
+                        </VStack>
                     </HStack>
-                    <HStack w='full' justifyContent='space-between'>
-                        <Details
-                            icon={<GasolineIcon width={28} height={24} />}
-                            data='Gasolina'
-                        />
-                        <Details
-                            icon={<ExchangeIcon width={28} height={28} />}
-                            data='Auto'
-                        />
-                        <Details
-                            icon={<PeopleIcon width={28} height={28} />}
-                            data='2 Pessoas'
-                        />
-                    </HStack>
-                </VStack>
-                <Text fontFamily='body' fontWeight='normal' fontSize='md' color='gray.600' mt={6} mb={16} px={2}>
-                    Este é automóvel desportivo. Surgiu do lendário touro de lide indultado na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.
-                </Text>
+                    <VStack h={48} my={4} justifyContent='space-between'>
+                        <HStack w='full' justifyContent='space-between'>
+                            <Details
+                                icon={<SpeedIcon width={28} height={28} />}
+                                data='380km/h'
+                            />
+                            <Details
+                                icon={<ForceIcon width={28} height={28} />}
+                                data='3.2s'
+                            />
+                            <Details
+                                icon={<AccelerationIcon width={28} height={28} />}
+                                data='800 HP'
+                            />
+                        </HStack>
+                        <HStack w='full' justifyContent='space-between'>
+                            <Details
+                                icon={<GasolineIcon width={28} height={24} />}
+                                data='Gasolina'
+                            />
+                            <Details
+                                icon={<ExchangeIcon width={28} height={28} />}
+                                data='Auto'
+                            />
+                            <Details
+                                icon={<PeopleIcon width={28} height={28} />}
+                                data='2 Pessoas'
+                            />
+                        </HStack>
+                    </VStack>
+                    <Text fontFamily='body' fontWeight='normal' fontSize='md' textAlign='justify' lineHeight={24} color='gray.600' mt={4} mb={16} px={2}>
+                        Este é automóvel desportivo. Surgiu do lendário touro de lide indultado na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.
+                    </Text>
+                </ScrollView>
                 <Button
                     title='Escolher período do aluguel'
                     color='red.500'
@@ -129,7 +131,7 @@ const CarDetails: React.FC = () => {
                     onPress={() => navigate('pick_date')}
                 />
             </VStack>
-        </ScrollView>
+        </VStack>
     );
 }
 
