@@ -3,6 +3,7 @@ import { RoutesProps } from 'src/@types/routes';
 import Home from '@screens/Home';
 import CarDetails from '@screens/CarDetails';
 import PickDate from '@screens/PickDate';
+import RentCarDetails from '@screens/RentCarDetalis';
 import ConcludedSchedule from '@screens/ConcludedSchedule';
 import Schedules from '@screens/Schedules';
 
@@ -22,6 +23,10 @@ const AppRoutes: React.FC = () => {
             <Screen
                 name='pick_date'
                 component={PickDate}
+            />
+            <Screen
+                name='rent_car_details'
+                component={RentCarDetails}
             />
             <Screen
                 name='concluded_schedule'

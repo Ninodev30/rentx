@@ -4,6 +4,7 @@ export type RoutesProps = {
     home: undefined;
     car_details: undefined;
     pick_date: undefined;
+    rent_car_details: undefined;
     concluded_schedule: undefined;
     schedules: undefined;
 }
