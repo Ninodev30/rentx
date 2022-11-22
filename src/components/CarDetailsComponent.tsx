@@ -4,7 +4,6 @@ import { Heading, VStack, HStack, Image, ScrollView, Text, useTheme, ITheme } fr
 import BackIcon from '@components/BackIcon';
 import StatusBar from '@components/StatusBar';
 import Details from '@components/Details';
-import Button from '@components/Button';
 
 import SpeedIcon from '@assets/speed.svg';
 import AccelerationIcon from '@assets/acceleration.svg';
@@ -126,13 +125,6 @@ const CarDetailsComponent: React.FC<Props> = ({ backIconFunction, buttonComponen
                 {additionalInfo}
             </ScrollView>
             {buttonComponent}
-            {/* <Button
-                title='Escolher período do aluguel'
-                color='red.500'
-                pressColor='red.700'
-                mx={2}
-                onPress={mainButtonFunction}
-            /> */}
         </VStack>
     );
 }

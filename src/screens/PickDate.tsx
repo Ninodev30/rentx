@@ -19,6 +19,7 @@ const PickDate: React.FC = () => {
             <Highlight
                 title={'Escolha uma \ndata de início e \nfim do aluguel'}
                 backIconFunction={() => goBack()}
+                h={80}
                 subTitle={
                     <HStack alignItems='center'>
                         <VStack h={7} justifyContent='space-between'>
@@ -48,14 +49,14 @@ const PickDate: React.FC = () => {
                         </VStack>
                     </HStack>
                 }
-                h={80}
             />
-            <VStack flex={1} px={6}>
+            <VStack flex={1} pt={4} pb={8} bgColor='white' justifyContent='space-between'>
                 <Calendar />
                 <Button
                     title='Confimar'
                     color='pink.300'
                     pressColor='pink.500'
+                    mx={6}
                     onPress={() => navigate('rent_car_details')}
                 />
             </VStack>

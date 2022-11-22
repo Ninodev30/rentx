@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { HStack, Text, VStack, Icon, Box } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import RoutesNavigationProps from 'src/@types/routes';
@@ -25,7 +25,7 @@ const RentCarDetails: React.FC = () => {
                         <HStack alignItems='center'>
                             <Box w={12} h={12} mr={6} bgColor='red.500' justifyContent='center' alignItems='center' rounded='sm'>
                                 <Icon
-                                    as={Ionicons}
+                                    as={Feather}
                                     name='calendar'
                                     size={5}
                                     color='white'
