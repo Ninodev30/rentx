@@ -14,19 +14,19 @@ import ExchangeIcon from '@assets/exchange.svg';
 import PeopleIcon from '@assets/people.svg';
 
 type Props = {
-    mainButtonFunction: () => void;
     backIconFunction: () => void;
+    buttonComponent: JSX.Element;
     additionalInfo: JSX.Element;
 }
 
-const CarDetailsComponent: React.FC<Props> = ({ mainButtonFunction, backIconFunction, additionalInfo }) => {
+const CarDetailsComponent: React.FC<Props> = ({ backIconFunction, buttonComponent, additionalInfo }) => {
     const [photoSelected, setPhotoSelected] = useState<number>(1);
     const { colors: { gray } }: ITheme = useTheme();
 
     return (
-        <VStack flex={1} bgColor='white'>
+        <VStack flex={1} px={4} pt={16} pb={8} bgColor='white' justifyContent='space-between'>
             <StatusBar variant='dark' />
-            <VStack px={4} pt={16} pb={8}>
+            <VStack>
                 <HStack w='full' justifyContent='space-between' alignItems='center'>
                     <BackIcon
                         variant='dark'
@@ -73,65 +73,66 @@ const CarDetailsComponent: React.FC<Props> = ({ mainButtonFunction, backIconFunc
                     my={8}
                     alignSelf='center'
                 />
-                <ScrollView>
-                    <HStack w='full' h={10} px={2} justifyContent='space-between' alignItems='center'>
-                        <VStack justifyContent='space-between'>
-                            <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
-                                Lamborghini
-                            </Text>
-                            <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='gray.700' textTransform='capitalize'>
-                                Huracan
-                            </Heading>
-                        </VStack>
-                        <VStack justifyContent='space-between'>
-                            <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
-                                ao dia
-                            </Text>
-                            <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='red.500' textTransform='capitalize'>
-                                R$ 580
-                            </Heading>
-                        </VStack>
-                    </HStack>
-                    <VStack h={48} my={4} justifyContent='space-between'>
-                        <HStack w='full' justifyContent='space-between'>
-                            <Details
-                                icon={<SpeedIcon width={28} height={28} />}
-                                data='380km/h'
-                            />
-                            <Details
-                                icon={<ForceIcon width={28} height={28} />}
-                                data='3.2s'
-                            />
-                            <Details
-                                icon={<AccelerationIcon width={28} height={28} />}
-                                data='800 HP'
-                            />
-                        </HStack>
-                        <HStack w='full' justifyContent='space-between'>
-                            <Details
-                                icon={<GasolineIcon width={28} height={24} />}
-                                data='Gasolina'
-                            />
-                            <Details
-                                icon={<ExchangeIcon width={28} height={28} />}
-                                data='Auto'
-                            />
-                            <Details
-                                icon={<PeopleIcon width={28} height={28} />}
-                                data='2 Pessoas'
-                            />
-                        </HStack>
-                    </VStack>
-                    {additionalInfo}
-                </ScrollView>
-                <Button
-                    title='Escolher período do aluguel'
-                    color='red.500'
-                    pressColor='red.700'
-                    mx={2}
-                    onPress={mainButtonFunction}
-                />
             </VStack>
+            <ScrollView>
+                <HStack w='full' h={10} px={2} justifyContent='space-between' alignItems='center'>
+                    <VStack justifyContent='space-between'>
+                        <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
+                            Lamborghini
+                        </Text>
+                        <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='gray.700' textTransform='capitalize'>
+                            Huracan
+                        </Heading>
+                    </VStack>
+                    <VStack justifyContent='space-between'>
+                        <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
+                            ao dia
+                        </Text>
+                        <Heading fontFamily='mono' fontWeight='medium' fontSize='xl' color='red.500' textTransform='capitalize'>
+                            R$ 580
+                        </Heading>
+                    </VStack>
+                </HStack>
+                <VStack h={48} my={4} justifyContent='space-between'>
+                    <HStack w='full' justifyContent='space-between'>
+                        <Details
+                            icon={<SpeedIcon width={28} height={28} />}
+                            data='380km/h'
+                        />
+                        <Details
+                            icon={<ForceIcon width={28} height={28} />}
+                            data='3.2s'
+                        />
+                        <Details
+                            icon={<AccelerationIcon width={28} height={28} />}
+                            data='800 HP'
+                        />
+                    </HStack>
+                    <HStack w='full' justifyContent='space-between'>
+                        <Details
+                            icon={<GasolineIcon width={28} height={24} />}
+                            data='Gasolina'
+                        />
+                        <Details
+                            icon={<ExchangeIcon width={28} height={28} />}
+                            data='Auto'
+                        />
+                        <Details
+                            icon={<PeopleIcon width={28} height={28} />}
+                            data='2 Pessoas'
+                        />
+                    </HStack>
+                </VStack>
+                {additionalInfo}
+            </ScrollView>
+            {buttonComponent}
+            {/* <Button
+                title='Escolher período do aluguel'
+                color='red.500'
+                pressColor='red.700'
+                mx={2}
+                onPress={mainButtonFunction}
+            /> */}
         </VStack>
     );
 }

@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import { ITheme, useTheme } from 'native-base';
+import { Icon, ITheme, useTheme } from 'native-base';
 import { Calendar as ReactNativeCalendar, LocaleConfig } from 'react-native-calendars';
 
 LocaleConfig.locales['pt-br'] = {
@@ -13,32 +13,33 @@ LocaleConfig.locales['pt-br'] = {
 LocaleConfig.defaultLocale = 'pt-br';
 
 const Calendar: React.FC = () => {
-    const theme: ITheme = useTheme();
+    const { colors, fontConfig, fontSizes }: ITheme = useTheme();
 
     return (
         <ReactNativeCalendar
             renderArrow={(direction) => (
-                <Feather
-                    size={24}
+                <Icon
+                    as={Feather}
+                    size={6}
                     name={`chevron-${direction}`}
-                    color={theme.colors.gray[600]}
+                    color='gray.600'
                 />
             )}
             headerStyle={{
-                backgroundColor: theme.colors.white,
+                backgroundColor: colors.white,
                 paddingBottom: 10,
                 marginBottom: 10,
                 borderBottomWidth: 1,
-                borderBottomColor: theme.colors.gray[300]
+                borderBottomColor: colors.gray[300]
             }}
             theme={{
-                textDayFontFamily: theme.fontConfig.Inter[400].normal,
-                textDayFontSize: theme.fontSizes.md,
-                textDayHeaderFontFamily: theme.fontConfig.Archivo[600].normal,
-                textDayHeaderFontSize: theme.fontSizes.xs,
-                textMonthFontFamily: theme.fontConfig.Archivo[600].normal,
-                textMonthFontSize: theme.fontSizes.lg,
-                monthTextColor: theme.colors.gray[700],
+                textDayFontFamily: fontConfig.Inter[400].normal,
+                textDayFontSize: fontSizes.md,
+                textDayHeaderFontFamily: fontConfig.Archivo[600].normal,
+                textDayHeaderFontSize: fontSizes.xs,
+                textMonthFontFamily: fontConfig.Archivo[600].normal,
+                textMonthFontSize: fontSizes.lg,
+                monthTextColor: colors.gray[700],
                 arrowStyle: {
                     marginHorizontal: -15
                 }
