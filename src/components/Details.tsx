@@ -1,17 +1,16 @@
-import { ReactElement } from 'react';
-import { Center, Text } from 'native-base';
+import { Center, Icon, Text } from 'native-base';
 import { SvgProps } from 'react-native-svg';
 
 type Props = {
     data: string;
-    icon: ReactElement<SvgProps>;
+    icon: React.FC<SvgProps>;
 }
 
 const Details: React.FC<Props> = ({ icon, data }) => {
     return (
         <Center w={27} h={23} bgColor='gray.200' rounded='sm'>
-            {icon}
-            <Text fontFamily='body' fontWeight='medium' fontSize='sm' color='gray.600' mt={3}>
+            <Icon as={icon} />
+            <Text fontFamily='body' fontWeight='medium' fontSize='sm' color='gray.600' mt={2}>
                 {data}
             </Text>
         </Center>

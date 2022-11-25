@@ -1,17 +1,25 @@
 import { TouchableOpacity } from 'react-native';
-import { HStack, Text, VStack, Image, Heading, Stack, IStackProps } from 'native-base';
-import CarTypeProps from 'src/@types/car';
-import Energy from '@assets/energy.svg';
-import Gasoline from '@assets/gasoline.svg';
+import { HStack, Text, VStack, Image, Heading, IStackProps, Icon } from 'native-base';
+import ElectricIcon from '@assets/energy.svg';
+import GasolineIcon from '@assets/gasoline.svg';
+import HybridIcon from '@assets/hybrid.svg';
 import Arrow from '@assets/arrow.svg';
+import { CarDTOType } from 'src/dtos/CarDTO';
+import { SvgProps } from 'react-native-svg';
 
 type Props = IStackProps & {
-    data: CarTypeProps;
+    data: CarDTOType;
     onPress: () => void;
     showRentInfo: boolean;
 }
 
-const Car: React.FC<Props> = ({ onPress, showRentInfo, data: { name, brand, photo, combustible, rent }, ...rest }) => {
+const Car: React.FC<Props> = ({ onPress, showRentInfo, data, ...rest }) => {
+    let fuelTypeIcon: React.FC<SvgProps> = GasolineIcon;
+    if (data.fuel_type.includes('electric'))
+        fuelTypeIcon = ElectricIcon;
+    if (data.fuel_type.includes('hybrid'))
+        fuelTypeIcon = HybridIcon;
+
     return (
         <TouchableOpacity onPress={onPress}>
             <VStack {...rest} >
@@ -19,26 +27,29 @@ const Car: React.FC<Props> = ({ onPress, showRentInfo, data: { name, brand, phot
                     <VStack justifyContent='space-between'>
                         <VStack>
                             <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
-                                {brand}
+                                {data.brand}
                             </Text>
                             <Heading fontFamily='mono' fontWeight='medium' fontSize='md' color='gray.700'>
-                                {name}
+                                {data.name}
                             </Heading>
                         </VStack>
                         <HStack w={24} justifyContent='space-between' alignItems='center'>
                             <VStack>
                                 <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
-                                    {rent.period}
+                                    {data.rent.period}
                                 </Text>
                                 <Text fontFamily='mono' fontWeight='medium' fontSize='md' color='red.500'>
-                                    {`R$ ${rent.price}`}
+                                    {`R$ ${data.rent.price}`}
                                 </Text>
                             </VStack>
-                            {combustible === 'energy' ? <Energy width={18} height={18} /> : <Gasoline width={18} height={18} />}
+                            <Icon
+                                as={fuelTypeIcon}
+                                width={18} height={18}
+                            />
                         </HStack>
                     </VStack>
                     <Image
-                        source={{ uri: photo }}
+                        source={{ uri: data.thumbnail }}
                         resizeMode='contain'
                         alt='Car photo'
                         width={40}
