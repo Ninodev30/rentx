@@ -8,15 +8,18 @@ import Button from '@components/Button';
 const RentCarDetails: React.FC = () => {
     const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
 
+    const handleGoBack: () => void = () => goBack();
+    const handleConcludedSchedule: () => void = () => navigate('concluded_schedule');
+
     return (
         <CarDetailsComponent
-            backIconFunction={() => goBack()}
+            backIconFunction={handleGoBack}
             buttonComponent={
                 <Button
                     title='Alugar agora'
                     color='green.500'
                     pressColor='green.700'
-                    onPress={() => navigate('concluded_schedule')}
+                    onPress={handleConcludedSchedule}
                 />
             }
             additionalInfo={

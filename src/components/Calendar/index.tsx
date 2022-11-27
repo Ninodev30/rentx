@@ -1,15 +1,9 @@
 import { Feather } from '@expo/vector-icons'
 import { Icon, ITheme, useTheme } from 'native-base';
 import { Calendar as ReactNativeCalendar, CalendarProps, LocaleConfig } from 'react-native-calendars';
+import { ptBR } from './localeConfig';
 
-LocaleConfig.locales['pt-br'] = {
-    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-    dayNamesShort: ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'],
-    today: 'Hoje'
-}
-
+LocaleConfig.locales['pt-br'] = ptBR;
 LocaleConfig.defaultLocale = 'pt-br';
 
 const Calendar: React.FC<CalendarProps> = ({ ...rest }) => {
@@ -46,6 +40,7 @@ const Calendar: React.FC<CalendarProps> = ({ ...rest }) => {
             }}
             firstDay={1}
             minDate={new Date().toString()}
+            markingType='period'
             {...rest}
         />
     )

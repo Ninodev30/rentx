@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { FlatList, HStack, Text, VStack } from 'native-base';
 import { AxiosResponse } from 'axios';
-import { CarDTOType } from 'src/dtos/CarDTO';
+import CarDTOType from 'src/dtos/CarDTO';
 import RoutesNavigationProps from 'src/@types/routes';
 import api from '../services/api';
 import Logo from '@assets/logo.svg';
@@ -43,7 +43,8 @@ const Home: React.FC = () => {
                     Total de 12 carros
                 </Text>
             </HStack>
-            {isLoading ? <Loading /> :
+            {isLoading ? 
+            <Loading /> :
                 <FlatList
                     data={carList}
                     keyExtractor={(item, index) => index + item.id}
@@ -51,7 +52,7 @@ const Home: React.FC = () => {
                         <Car
                             data={item}
                             mb={4}
-                            onPress={() => navigate('car_details', item)}
+                            onPress={() => navigate('car_details', { car: item })}
                             showRentInfo={false}
                         />
                     )}

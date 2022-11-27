@@ -1,11 +1,11 @@
-import { TouchableOpacity } from 'react-native';
+import { GestureResponderEvent, TouchableOpacity } from 'react-native';
 import { HStack, Text, VStack, Image, Heading, IStackProps, Icon } from 'native-base';
+import { SvgProps } from 'react-native-svg';
 import ElectricIcon from '@assets/energy.svg';
 import GasolineIcon from '@assets/gasoline.svg';
 import HybridIcon from '@assets/hybrid.svg';
 import Arrow from '@assets/arrow.svg';
-import { CarDTOType } from 'src/dtos/CarDTO';
-import { SvgProps } from 'react-native-svg';
+import CarDTOType from 'src/dtos/CarDTO';
 
 type Props = IStackProps & {
     data: CarDTOType;

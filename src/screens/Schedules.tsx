@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList, HStack, Text, VStack } from "native-base";
-import { CarDTOType } from 'src/dtos/CarDTO';
+import CarDTOType from 'src/dtos/CarDTO';
 import RoutesNavigationProps from 'src/@types/routes';
 import Highlight from "@components/Highlight";
 import StatusBar from "@components/StatusBar";
@@ -11,13 +11,14 @@ const Schedules: React.FC = () => {
     const [schedules, setSchedules] = useState<CarDTOType[]>([])
 
     const { navigate } = useNavigation<RoutesNavigationProps>();
+    const handleGoBack: () => void = () => navigate("home");
 
     return (
         <VStack flex={1}>
             <StatusBar variant='light' />
             <Highlight
                 title='Seus agendamentos, estão aqui.'
-                backIconFunction={() => navigate("home")}
+                backIconFunction={handleGoBack}
                 subTitle={
                     <Text fontFamily='mono' fontWeight='normal' fontSize='md' color='white'>
                         Conforto, segurança e praticidade

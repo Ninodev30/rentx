@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { Heading, VStack, HStack, Image, ScrollView, Text, Box } from 'native-base';
-import { CarDTOType } from 'src/dtos/CarDTO';
+import CarDTOType from 'src/dtos/CarDTO';
 import BackIcon from '@components/BackIcon';
 import StatusBar from '@components/StatusBar';
 import Details from '@components/Details';
@@ -16,6 +16,10 @@ import ExchangeIcon from '@assets/exchange.svg';
 import PeopleIcon from '@assets/people.svg';
 import { SvgProps } from 'react-native-svg';
 
+type RouteParams = {
+    car: CarDTOType
+}
+
 type Props = {
     backIconFunction: () => void;
     buttonComponent: JSX.Element;
@@ -25,7 +29,7 @@ type Props = {
 const CarDetailsComponent: React.FC<Props> = ({ backIconFunction, buttonComponent, additionalInfo }) => {
     const [photoSelected, setPhotoSelected] = useState<number>(0);
     const { params } = useRoute();
-    const { name, brand, rent, photos, accessories, fuel_type } = params as CarDTOType;
+    const { car: { name, brand, rent, photos, accessories, fuel_type } } = params as RouteParams;
 
     let fuelTypeIcon: React.FC<SvgProps> = GasolineIcon;
     if (fuel_type.includes('electric'))

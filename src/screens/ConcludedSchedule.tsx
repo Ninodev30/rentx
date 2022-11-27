@@ -8,6 +8,8 @@ import StatusBar from '@components/StatusBar';
 const ConcludedSchedule: React.FC = () => {
     const { navigate } = useNavigation<RoutesNavigationProps>();
 
+    const handleGoNextScreen: () => void = () => navigate('schedules');
+
     return (
         <VStack flex={1} py={16} alignItems='center' bgColor='gray.900'>
             <StatusBar variant='light' />
@@ -24,7 +26,7 @@ const ConcludedSchedule: React.FC = () => {
             <Button
                 w={20} h={14} mt={16} bgColor='gray.800'
                 _pressed={{ backgroundColor: 'gray.600' }}
-                onPress={() => navigate('schedules')}
+                onPress={handleGoNextScreen}
             >
                 Ok
             </Button>

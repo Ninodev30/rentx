@@ -1,24 +1,83 @@
 import { useState } from 'react';
+import { Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Box, HStack, Text, VStack } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
+import { DateData } from 'react-native-calendars';
+import { format } from 'date-fns';
+import CarDTOType from 'src/dtos/CarDTO';
+import getPlataformDate from '@utils/getPlataformDate';
 import RoutesNavigationProps from 'src/@types/routes';
+import SelectedDatesProps from 'src/@types/selectedDates';
+import RentalPeriod from 'src/@types/rentalPeriod';
+import Calendar from '@components/Calendar';
+import generateInterval from '@components/Calendar/generateInterval';
 import ArrowIcon from '@assets/arrow.svg';
 import Highlight from '@components/Highlight';
 import StatusBar from '@components/StatusBar';
 import Button from '@components/Button';
-import Calendar from '@components/Calendar';
+
+type RouteParams = {
+    car: CarDTOType;
+}
 
 const PickDate: React.FC = () => {
-    const [initialDateSelected, setInitialDateSelected] = useState<string>('18/06/2022');
-    const [finalDateSelected, setFinalDateSelected] = useState<string>('18/06/2022');
+    const [lastSelectedDate, setLastSelectedDate] = useState<DateData>({} as DateData);
+    const [SelectedDate, setSelectedDate] = useState<SelectedDatesProps>({} as SelectedDatesProps);
+    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
+
     const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
+    const { params } = useRoute();
+    const { car } = params as RouteParams;
+
+    const handleChangeDate: (date: DateData) => void = (date) => {
+        let start: DateData = !lastSelectedDate.timestamp ? date : lastSelectedDate;
+        let end: DateData = date;
+
+        if (start.timestamp > end.timestamp) {
+            start = end;
+            end = start;
+        }
+
+        setLastSelectedDate(end);
+        transformDates(start, end);
+    }
+
+    const transformDates: (startData: DateData, endData: DateData) => void = (startData, endData) => {
+        const interval: SelectedDatesProps = generateInterval(startData, endData);
+        setSelectedDate(interval);
+
+        // getting the first and last property of interval object;
+        const firstDate: string = Object.keys(interval)[0];
+        const lastDate: string = Object.keys(interval)[Object.keys(interval).length - 1];
+
+        setRentalPeriod({
+            start: startData.timestamp,
+            end: endData.timestamp,
+            startFormatted: format(getPlataformDate(new Date(firstDate)), 'dd/MM/yyyy'),
+            endFormatted: format(getPlataformDate(new Date(lastDate)), 'dd/MM/yyyy')
+        })
+    }
+
+    const handleGoBack: () => void = () => goBack();
+
+    const handleConfirmRent: () => void = () => {
+        if (!rentalPeriod.start)
+            return Alert.alert('Escolher período', 'selecione o período inicial do aluguel');
+        if (rentalPeriod.start >= rentalPeriod.end)
+            return Alert.alert('Escolher período', 'selecione o período final do aluguel');
+        return console.log('passed');
+        navigate('rent_car_details', {
+            car: car,
+            rentalPeriod: rentalPeriod
+        });
+    }
 
     return (
         <VStack flex={1}>
             <StatusBar variant='light' />
             <Highlight
                 title={'Escolha uma \ndata de início e \nfim do aluguel'}
-                backIconFunction={() => goBack()}
+                backIconFunction={handleGoBack}
                 h={80}
                 subTitle={
                     <HStack alignItems='center'>
@@ -26,9 +85,9 @@ const PickDate: React.FC = () => {
                             <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.600' textTransform='uppercase'>
                                 de
                             </Text>
-                            {initialDateSelected ?
+                            {rentalPeriod.startFormatted ?
                                 <Text fontFamily='body' fontWeight='medium' fontSize='md' color='white'>
-                                    {initialDateSelected}
+                                    {rentalPeriod.startFormatted}
                                 </Text>
                                 :
                                 <Box w={24} h='1px' bgColor='gray.600' />
@@ -39,9 +98,9 @@ const PickDate: React.FC = () => {
                             <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.600' textTransform='uppercase'>
                                 até
                             </Text>
-                            {finalDateSelected ?
+                            {rentalPeriod.end > rentalPeriod.start ?
                                 <Text fontFamily='body' fontWeight='medium' fontSize='md' color='white'>
-                                    {finalDateSelected}
+                                    {rentalPeriod.endFormatted}
                                 </Text>
                                 :
                                 <Box w={24} h='1px' bgColor='gray.600' />
@@ -51,13 +110,16 @@ const PickDate: React.FC = () => {
                 }
             />
             <VStack flex={1} pt={4} pb={8} bgColor='white' justifyContent='space-between'>
-                <Calendar />
+                <Calendar
+                    markedDates={SelectedDate}
+                    onDayPress={handleChangeDate}
+                />
                 <Button
                     title='Confimar'
                     color='pink.300'
                     pressColor='pink.500'
                     mx={6}
-                    onPress={() => navigate('rent_car_details')}
+                    onPress={handleConfirmRent}
                 />
             </VStack>
         </VStack>

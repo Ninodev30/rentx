@@ -1,4 +1,4 @@
-export type CarDTOType = {
+type CarDTOType = {
     id: string;
     brand: string;
     name: string;
@@ -15,3 +15,5 @@ export type CarDTOType = {
     }[];
     photos: string[];
 };
+
+export default CarDTOType;
