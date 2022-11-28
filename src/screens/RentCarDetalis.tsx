@@ -28,15 +28,15 @@ const RentCarDetails: React.FC = () => {
     const handleGoBack: () => void = () => goBack();
 
     const handleConcludedSchedule: () => Promise<void> = async () => {
-        const response: AxiosResponse = await api.get(`/schedules/${car.id}`);
+        const response = await api.get(`/schedules_bycars/${car.id}`);
 
         const unavailable_dates = [
             ...response.data.unavailable_dates,
             ...dates
         ];
-
+        
         api
-            .put(`/schedules/${car.id}`, {
+            .put(`/schedules_bycars/${car.id}`, {
                 id: car.id,
                 unavailable_dates: unavailable_dates
             })
@@ -50,7 +50,7 @@ const RentCarDetails: React.FC = () => {
                     return console.log(error.request);
                 if (error.response)
                     return console.log(error.response);
-                    
+
                 console.log(JSON.stringify(error));
             })
     }
