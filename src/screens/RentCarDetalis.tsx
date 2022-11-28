@@ -1,18 +1,63 @@
+import { Alert } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { HStack, Text, VStack, Icon, Box } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { AxiosResponse } from 'axios';
+import api from '../services/api';
+import RentalPeriodType from 'src/@types/rentalPeriod';
 import RoutesNavigationProps from 'src/@types/routes';
 import CarDetailsComponent from '@components/CarDetailsComponent';
 import Button from '@components/Button';
+import CarDTOType from 'src/dtos/CarDTO';
+
+type RouteParams = {
+    car: CarDTOType;
+    dates: string[];
+    rentalPeriod: RentalPeriodType;
+}
 
 const RentCarDetails: React.FC = () => {
     const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
+    const { params } = useRoute();
+    const { car, dates, rentalPeriod } = params as RouteParams;
+
+    const period: number = rentalPeriod.end - rentalPeriod.start;
+    const rentValue: string = `${car.rent.price} x ${period} diárias`;
+    const rentTotalValue: string = `R$ ${(car.rent.price * period).toLocaleString('pt-BR')}`;
 
     const handleGoBack: () => void = () => goBack();
-    const handleConcludedSchedule: () => void = () => navigate('concluded_schedule');
+
+    const handleConcludedSchedule: () => Promise<void> = async () => {
+        const response: AxiosResponse = await api.get(`/schedules/${car.id}`);
+
+        const unavailable_dates = [
+            ...response.data.unavailable_dates,
+            ...dates
+        ];
+
+        api
+            .put(`/schedules/${car.id}`, {
+                id: car.id,
+                unavailable_dates: unavailable_dates
+            })
+            .then(() => {
+                navigate('concluded_schedule');
+            })
+            .catch((error) => {
+                Alert.alert('Confirmar aluguel', 'não foi possível confirmar o aluguel');
+
+                if (error.request)
+                    return console.log(error.request);
+                if (error.response)
+                    return console.log(error.response);
+                    
+                console.log(JSON.stringify(error));
+            })
+    }
 
     return (
         <CarDetailsComponent
+            car={car}
             backIconFunction={handleGoBack}
             buttonComponent={
                 <Button
@@ -39,7 +84,7 @@ const RentCarDetails: React.FC = () => {
                                     de
                                 </Text>
                                 <Text fontFamily='body' fontWeight='medium' fontSize='md' color='gray.700'>
-                                    18/06/2022
+                                    {rentalPeriod.startFormatted}
                                 </Text>
                             </VStack>
                         </HStack>
@@ -55,7 +100,7 @@ const RentCarDetails: React.FC = () => {
                                     de
                                 </Text>
                                 <Text fontFamily='body' fontWeight='medium' fontSize='md' color='gray.700'>
-                                    20/06/2022
+                                    {rentalPeriod.endFormatted}
                                 </Text>
                             </VStack>
                         </HStack>
@@ -66,17 +111,17 @@ const RentCarDetails: React.FC = () => {
                                 total
                             </Text>
                             <Text fontFamily='body' fontWeight='medium' fontSize='md' color='gray.700'>
-                                580 x  3 diárias
+                                {rentValue}
                             </Text>
                         </VStack>
                         <Text fontFamily='mono' fontWeight='medium' fontSize='xl' color='green.500'>
-                            R$ 2.900
+                            {rentTotalValue}
                         </Text>
                     </HStack>
                 </VStack>
             }
         />
     );
-}
+};
 
 export default RentCarDetails;

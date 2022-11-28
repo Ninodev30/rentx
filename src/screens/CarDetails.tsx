@@ -19,6 +19,7 @@ const CarDetails: React.FC = () => {
 
     return (
         <CarDetailsComponent
+            car={car}
             backIconFunction={handleGoBack}
             buttonComponent={
                 <Button

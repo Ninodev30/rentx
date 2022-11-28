@@ -8,7 +8,7 @@ import CarDTOType from 'src/dtos/CarDTO';
 import getPlataformDate from '@utils/getPlataformDate';
 import RoutesNavigationProps from 'src/@types/routes';
 import SelectedDatesProps from 'src/@types/selectedDates';
-import RentalPeriod from 'src/@types/rentalPeriod';
+import RentalPeriodType from 'src/@types/rentalPeriod';
 import Calendar from '@components/Calendar';
 import generateInterval from '@components/Calendar/generateInterval';
 import ArrowIcon from '@assets/arrow.svg';
@@ -23,7 +23,7 @@ type RouteParams = {
 const PickDate: React.FC = () => {
     const [lastSelectedDate, setLastSelectedDate] = useState<DateData>({} as DateData);
     const [SelectedDate, setSelectedDate] = useState<SelectedDatesProps>({} as SelectedDatesProps);
-    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
+    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriodType>({} as RentalPeriodType);
 
     const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
     const { params } = useRoute();
@@ -45,29 +45,33 @@ const PickDate: React.FC = () => {
     const transformDates: (startData: DateData, endData: DateData) => void = (startData, endData) => {
         const interval: SelectedDatesProps = generateInterval(startData, endData);
         setSelectedDate(interval);
-
+        
         // getting the first and last property of interval object;
         const firstDate: string = Object.keys(interval)[0];
         const lastDate: string = Object.keys(interval)[Object.keys(interval).length - 1];
 
         setRentalPeriod({
-            start: startData.timestamp,
-            end: endData.timestamp,
+            start: startData.timestamp / 86400000, // milliseconds in a day;
+            end: endData.timestamp / 86400000,
             startFormatted: format(getPlataformDate(new Date(firstDate)), 'dd/MM/yyyy'),
             endFormatted: format(getPlataformDate(new Date(lastDate)), 'dd/MM/yyyy')
         })
     }
 
+    const isEndDaySelected: boolean = rentalPeriod.start < rentalPeriod.end;
     const handleGoBack: () => void = () => goBack();
 
     const handleConfirmRent: () => void = () => {
         if (!rentalPeriod.start)
             return Alert.alert('Escolher período', 'selecione o período inicial do aluguel');
-        if (rentalPeriod.start >= rentalPeriod.end)
+        if (!isEndDaySelected)
             return Alert.alert('Escolher período', 'selecione o período final do aluguel');
-        return console.log('passed');
+
+        const dates: string[] = Object.keys(SelectedDate);
+
         navigate('rent_car_details', {
             car: car,
+            dates: dates,
             rentalPeriod: rentalPeriod
         });
     }
@@ -116,8 +120,8 @@ const PickDate: React.FC = () => {
                 />
                 <Button
                     title='Confimar'
-                    color='pink.300'
-                    pressColor='pink.500'
+                    color={isEndDaySelected ? 'red.500' : 'pink.300'}
+                    pressColor={isEndDaySelected ? 'red.700' : 'pink.500'}
                     mx={6}
                     onPress={handleConfirmRent}
                 />

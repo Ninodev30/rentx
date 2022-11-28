@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import RentalPeriod from './rentalPeriod';
+import RentalPeriodType from './rentalPeriod';
 import CarDTOType from 'src/dtos/CarDTO';
 
 export type RoutesProps = {
@@ -12,7 +12,8 @@ export type RoutesProps = {
     };
     rent_car_details: {
         car: CarDTOType;
-        rentalPeriod: RentalPeriod;
+        dates: string[];
+        rentalPeriod: RentalPeriodType;
     }
     concluded_schedule: undefined;
     schedules: undefined;
