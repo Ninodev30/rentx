@@ -28,17 +28,35 @@ const RentCarDetails: React.FC = () => {
     const handleGoBack: () => void = () => goBack();
 
     const handleConcludedSchedule: () => Promise<void> = async () => {
-        const response = await api.get(`/schedules_bycars/${car.id}`);
+        let unavailable_dates: any;
 
-        const unavailable_dates = [
-            ...response.data.unavailable_dates,
-            ...dates
-        ];
-        
+        api
+            .get(`/schedules_bycars/${car.id}`)
+            .then((response) => {
+                unavailable_dates = [
+                    ...response.data.unavailable_dates,
+                    ...dates
+                ];
+
+                registerCarInScheduleList(unavailable_dates);
+            })
+            .catch((error) => {
+                Alert.alert('Confirmar aluguel', 'não foi possível confirmar o aluguel');
+
+                if (error.request)
+                    return console.log(error.request);
+                if (error.response)
+                    return console.log(error.response);
+
+                console.log(JSON.stringify(error));
+            });
+    }
+
+    const registerCarInScheduleList: (invalidDates: any) => Promise<void> = async (invalidDates) => {
         api
             .put(`/schedules_bycars/${car.id}`, {
                 id: car.id,
-                unavailable_dates: unavailable_dates
+                unavailable_dates: invalidDates
             })
             .then(() => {
                 navigate('concluded_schedule');
@@ -52,7 +70,7 @@ const RentCarDetails: React.FC = () => {
                     return console.log(error.response);
 
                 console.log(JSON.stringify(error));
-            })
+            });
     }
 
     return (
