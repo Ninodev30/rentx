@@ -2,7 +2,6 @@ import { Alert } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { HStack, Text, VStack, Icon, Box } from 'native-base';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { AxiosResponse } from 'axios';
 import api from '../services/api';
 import RentalPeriodType from 'src/@types/rentalPeriod';
 import RoutesNavigationProps from 'src/@types/routes';
@@ -17,7 +16,7 @@ type RouteParams = {
 }
 
 const RentCarDetails: React.FC = () => {
-    const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
+    const { navigate } = useNavigation<RoutesNavigationProps>();
     const { params } = useRoute();
     const { car, dates, rentalPeriod } = params as RouteParams;
 
@@ -25,15 +24,11 @@ const RentCarDetails: React.FC = () => {
     const rentValue: string = `${car.rent.price} x ${period} diárias`;
     const rentTotalValue: string = `R$ ${(car.rent.price * period).toLocaleString('pt-BR')}`;
 
-    const handleGoBack: () => void = () => goBack();
-
     const handleConcludedSchedule: () => Promise<void> = async () => {
-        let unavailable_dates: any;
-
-        api
+        await api
             .get(`/schedules_bycars/${car.id}`)
             .then((response) => {
-                unavailable_dates = [
+                const unavailable_dates: string[] = [
                     ...response.data.unavailable_dates,
                     ...dates
                 ];
@@ -53,10 +48,31 @@ const RentCarDetails: React.FC = () => {
     }
 
     const registerCarInScheduleList: (invalidDates: any) => Promise<void> = async (invalidDates) => {
-        api
+        await api
             .put(`/schedules_bycars/${car.id}`, {
                 id: car.id,
                 unavailable_dates: invalidDates
+            })
+            .then(() => {
+                registerCarInScheduleListByUser();
+            })
+            .catch((error) => {
+                Alert.alert('Confirmar aluguel', 'não foi possível confirmar o aluguel');
+
+                if (error.request)
+                    return console.log(error.request);
+                if (error.response)
+                    return console.log(error.response);
+
+                console.log(JSON.stringify(error));
+            });
+    }
+
+    const registerCarInScheduleListByUser: () => Promise<void> = async () => {
+        await api
+            .post(`schedules_byuser`, {
+                user_id: 1,
+                car
             })
             .then(() => {
                 navigate('concluded_schedule');
@@ -76,7 +92,6 @@ const RentCarDetails: React.FC = () => {
     return (
         <CarDetailsComponent
             car={car}
-            backIconFunction={handleGoBack}
             buttonComponent={
                 <Button
                     title='Alugar agora'

@@ -2,12 +2,11 @@ import { Box, Heading, IBoxProps } from 'native-base';
 import BackIcon from './BackIcon';
 
 type Props = IBoxProps & {
-    backIconFunction: () => void;
     title: string;
     subTitle: JSX.Element;
 }
 
-const Highlight: React.FC<Props> = ({ backIconFunction, title, subTitle, ...rest }) => {
+const Highlight: React.FC<Props> = ({ title, subTitle, ...rest }) => {
     return (
         <Box
             w='full' h={72}
@@ -18,7 +17,6 @@ const Highlight: React.FC<Props> = ({ backIconFunction, title, subTitle, ...rest
             <BackIcon
                 variant='light'
                 mb={2} ml={2}
-                onPress={backIconFunction}
             />
             <Heading fontFamily='mono' fontWeight='semibold' fontSize='2xl' color='white' my={7}>
                 {title}

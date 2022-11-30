@@ -1,4 +1,4 @@
-import { GestureResponderEvent, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { HStack, Text, VStack, Image, Heading, IStackProps, Icon } from 'native-base';
 import { SvgProps } from 'react-native-svg';
 import ElectricIcon from '@assets/energy.svg';

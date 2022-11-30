@@ -81,7 +81,6 @@ const PickDate: React.FC = () => {
             <StatusBar variant='light' />
             <Highlight
                 title={'Escolha uma \ndata de início e \nfim do aluguel'}
-                backIconFunction={handleGoBack}
                 h={80}
                 subTitle={
                     <HStack alignItems='center'>

@@ -8,7 +8,7 @@ import StatusBar from '@components/StatusBar';
 const ConcludedSchedule: React.FC = () => {
     const { navigate } = useNavigation<RoutesNavigationProps>();
 
-    const handleGoNextScreen: () => void = () => navigate('schedules');
+    const handleGoNextScreen: () => void = () => navigate('home');
 
     return (
         <VStack flex={1} py={16} alignItems='center' bgColor='gray.900'>

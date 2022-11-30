@@ -17,12 +17,11 @@ import PeopleIcon from '@assets/people.svg';
 
 type Props = {
     car: CarDTOType;
-    backIconFunction: () => void;
     buttonComponent: JSX.Element;
     additionalInfo: JSX.Element;
 }
 
-const CarDetailsComponent: React.FC<Props> = ({ car, backIconFunction, buttonComponent, additionalInfo }) => {
+const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additionalInfo }) => {
     const [photoSelected, setPhotoSelected] = useState<number>(0);
     const { name, brand, rent, photos, accessories, fuel_type } = car as CarDTOType;
 
@@ -50,7 +49,6 @@ const CarDetailsComponent: React.FC<Props> = ({ car, backIconFunction, buttonCom
                     <BackIcon
                         variant='dark'
                         ml={4}
-                        onPress={backIconFunction}
                     />
                     <HStack>
                         {renderMiniBoxes()}

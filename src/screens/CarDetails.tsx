@@ -10,17 +10,15 @@ type RouteParams = {
 }
 
 const CarDetails: React.FC = () => {
-    const { navigate, goBack } = useNavigation<RoutesNavigationProps>();
+    const { navigate } = useNavigation<RoutesNavigationProps>();
     const { params } = useRoute();
     const { car } = params as RouteParams;
 
     const handlePickDate: () => void = () => navigate('pick_date', { car });
-    const handleGoBack: () => void = () => goBack();
 
     return (
         <CarDetailsComponent
             car={car}
-            backIconFunction={handleGoBack}
             buttonComponent={
                 <Button
                     title='Escolher período do aluguel'

@@ -1,24 +1,55 @@
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, HStack, Text, VStack } from "native-base";
+import api from '../services/api';
 import CarDTOType from 'src/dtos/CarDTO';
-import RoutesNavigationProps from 'src/@types/routes';
 import Highlight from "@components/Highlight";
 import StatusBar from "@components/StatusBar";
 import Car from '@components/Car';
+import Loading from '@components/Loading';
+
+type SchedulesTypeProps = {
+    user_id: number;
+    car: CarDTOType;
+}
 
 const Schedules: React.FC = () => {
-    const [schedules, setSchedules] = useState<CarDTOType[]>([])
+    const [schedules, setSchedules] = useState<SchedulesTypeProps[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const { navigate } = useNavigation<RoutesNavigationProps>();
-    const handleGoBack: () => void = () => navigate("home");
+    const fetchCars: () => Promise<void> = async () => {
+        await api
+            .get('/schedules_byuser?user_id=1')
+            .then((response) => {
+                setSchedules(response.data);
+            })
+            .catch((error) => {
+                Alert.alert('Agendamentos', 'não foi possível carregar seus agendamentos');
+
+                if (error.request)
+                    return console.log(error.request);
+                if (error.response)
+                    return console.log(error.response);
+
+                console.log(JSON.stringify(error));
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchCars();
+        }, [])
+    )
 
     return (
         <VStack flex={1}>
             <StatusBar variant='light' />
             <Highlight
                 title='Seus agendamentos, estão aqui.'
-                backIconFunction={handleGoBack}
                 subTitle={
                     <Text fontFamily='mono' fontWeight='normal' fontSize='md' color='white'>
                         Conforto, segurança e praticidade
@@ -34,20 +65,24 @@ const Schedules: React.FC = () => {
                         {schedules.length > 10 ? schedules.length : `0${schedules.length}`}
                     </Text>
                 </HStack>
-                <FlatList
-                    data={schedules}
-                    keyExtractor={(item, index) => index + item.id}
-                    renderItem={({ item }) => (
-                        <Car
-                            data={item}
-                            mb={4}
-                            onPress={() => {/* navigate('car_details') */ }}
-                            showRentInfo
-                        />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    _contentContainerStyle={{ paddingBottom: 20 }}
-                />
+                {isLoading ?
+                    <Loading />
+                    :
+                    <FlatList
+                        data={schedules}
+                        keyExtractor={(item, index) => index + String(item)}
+                        renderItem={({ item }) => (
+                            <Car
+                                data={item.car}
+                                mb={4}
+                                onPress={() => {/* navigate('car_details') */ }}
+                                showRentInfo
+                            />
+                        )}
+                        showsVerticalScrollIndicator={false}
+                        _contentContainerStyle={{ paddingBottom: 20 }}
+                    />
+                }
             </VStack>
         </VStack>
     )
