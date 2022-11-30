@@ -10,6 +10,7 @@ import Logo from '@assets/logo.svg';
 import Car from '@components/Car';
 import StatusBar from '@components/StatusBar';
 import Loading from '@components/Loading';
+import ListEmpty from '@components/ListEmpty';
 
 const Home: React.FC = () => {
     const [carList, setCarList] = useState<CarDTOType[]>([]);
@@ -51,7 +52,7 @@ const Home: React.FC = () => {
             <HStack h={32} pb={8} px={6} bgColor='gray.900' justifyContent='space-between' alignItems='flex-end'>
                 <Logo width={108} height={12} />
                 <Text fontFamily='body' fontWeight='normal' fontSize='md' color='gray.600' mb={-1}>
-                    Total de 12 carros
+                    Total de {carList.length} carros
                 </Text>
             </HStack>
             {isLoading ?
@@ -64,12 +65,13 @@ const Home: React.FC = () => {
                             data={item}
                             mb={4}
                             onPress={() => navigate('car_details', { car: item })}
-                            showRentInfo={false}
+                            footer={false}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
                     p={4}
                     _contentContainerStyle={{ paddingBottom: 20 }}
+                    ListEmptyComponent={<ListEmpty h='lg' title='Lista de carros indisponível' />}
                 />
             }
             <Button

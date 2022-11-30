@@ -10,10 +10,10 @@ import CarDTOType from 'src/dtos/CarDTO';
 type Props = IStackProps & {
     data: CarDTOType;
     onPress: () => void;
-    showRentInfo: boolean;
+    footer: boolean;
 }
 
-const Car: React.FC<Props> = ({ onPress, showRentInfo, data, ...rest }) => {
+const Car: React.FC<Props> = ({ onPress, footer, data, ...rest }) => {
     let fuelTypeIcon: React.FC<SvgProps> = GasolineIcon;
     if (data.fuel_type.includes('electric'))
         fuelTypeIcon = ElectricIcon;
@@ -56,7 +56,7 @@ const Car: React.FC<Props> = ({ onPress, showRentInfo, data, ...rest }) => {
                         height={24}
                     />
                 </HStack>
-                {showRentInfo &&
+                {footer &&
                     <HStack h={10} px={3} mt={1} justifyContent='space-between' alignItems='center' rounded='sm' bgColor='white'>
                         <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
                             período

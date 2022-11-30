@@ -8,6 +8,7 @@ import Highlight from "@components/Highlight";
 import StatusBar from "@components/StatusBar";
 import Car from '@components/Car';
 import Loading from '@components/Loading';
+import ListEmpty from '@components/ListEmpty';
 
 type SchedulesTypeProps = {
     user_id: number;
@@ -70,17 +71,19 @@ const Schedules: React.FC = () => {
                     :
                     <FlatList
                         data={schedules}
+                        flex={1}
                         keyExtractor={(item, index) => index + String(item)}
                         renderItem={({ item }) => (
                             <Car
                                 data={item.car}
                                 mb={4}
                                 onPress={() => {/* navigate('car_details') */ }}
-                                showRentInfo
+                                footer
                             />
                         )}
                         showsVerticalScrollIndicator={false}
                         _contentContainerStyle={{ paddingBottom: 20 }}
+                        ListEmptyComponent={<ListEmpty h='xs' title='Vocẽ ainda não alugou nenhum carro' />}
                     />
                 }
             </VStack>
