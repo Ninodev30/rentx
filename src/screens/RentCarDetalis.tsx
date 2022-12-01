@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Alert } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { HStack, Text, VStack, Icon, Box } from 'native-base';
@@ -16,7 +17,9 @@ type RouteParams = {
 }
 
 const RentCarDetails: React.FC = () => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { navigate } = useNavigation<RoutesNavigationProps>();
+
     const { params } = useRoute();
     const { car, dates, rentalPeriod } = params as RouteParams;
 
@@ -25,6 +28,8 @@ const RentCarDetails: React.FC = () => {
     const rentTotalValue: string = `R$ ${(car.rent.price * period).toLocaleString('pt-BR')}`;
 
     const handleConcludedSchedule: () => Promise<void> = async () => {
+        setIsLoading(true);
+
         await api
             .get(`/schedules_bycars/${car.id}`)
             .then((response) => {
@@ -39,11 +44,12 @@ const RentCarDetails: React.FC = () => {
                 Alert.alert('Confirmar aluguel', 'não foi possível confirmar o aluguel');
 
                 if (error.request)
-                    return console.log(error.request);
+                    console.log(error.request);
                 if (error.response)
-                    return console.log(error.response);
+                    console.log(error.response);
 
-                console.log(JSON.stringify(error));
+                console.log(error);
+                setIsLoading(false);
             });
     }
 
@@ -64,7 +70,8 @@ const RentCarDetails: React.FC = () => {
                 if (error.response)
                     return console.log(error.response);
 
-                console.log(JSON.stringify(error));
+                console.log(error);
+                setIsLoading(false);
             });
     }
 
@@ -85,9 +92,18 @@ const RentCarDetails: React.FC = () => {
                 if (error.response)
                     return console.log(error.response);
 
-                console.log(JSON.stringify(error));
+                console.log(error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }
+
+    // const testing: () => Promise<void> = async () => {
+    //     registerCarInScheduleListByUser().then(() => {
+
+    //     })
+    // }
 
     return (
         <CarDetailsComponent
@@ -98,6 +114,7 @@ const RentCarDetails: React.FC = () => {
                     color='green.500'
                     pressColor='green.700'
                     onPress={handleConcludedSchedule}
+                    disabled={isLoading}
                 />
             }
             additionalInfo={

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Box, HStack, Text, VStack } from 'native-base';
 import { DateData } from 'react-native-calendars';
@@ -45,7 +44,7 @@ const PickDate: React.FC = () => {
     const transformDates: (startData: DateData, endData: DateData) => void = (startData, endData) => {
         const interval: SelectedDatesProps = generateInterval(startData, endData);
         setSelectedDate(interval);
-        
+
         // getting the first and last property of interval object;
         const firstDate: string = Object.keys(interval)[0];
         const lastDate: string = Object.keys(interval)[Object.keys(interval).length - 1];
@@ -59,14 +58,8 @@ const PickDate: React.FC = () => {
     }
 
     const isEndDaySelected: boolean = rentalPeriod.start < rentalPeriod.end;
-    const handleGoBack: () => void = () => goBack();
 
     const handleConfirmRent: () => void = () => {
-        if (!rentalPeriod.start)
-            return Alert.alert('Escolher período', 'selecione o período inicial do aluguel');
-        if (!isEndDaySelected)
-            return Alert.alert('Escolher período', 'selecione o período final do aluguel');
-
         const dates: string[] = Object.keys(SelectedDate);
 
         navigate('rent_car_details', {
@@ -101,7 +94,7 @@ const PickDate: React.FC = () => {
                             <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.600' textTransform='uppercase'>
                                 até
                             </Text>
-                            {rentalPeriod.end > rentalPeriod.start ?
+                            {isEndDaySelected ?
                                 <Text fontFamily='body' fontWeight='medium' fontSize='md' color='white'>
                                     {rentalPeriod.endFormatted}
                                 </Text>
@@ -120,9 +113,10 @@ const PickDate: React.FC = () => {
                 <Button
                     title='Confimar'
                     color={isEndDaySelected ? 'red.500' : 'pink.300'}
-                    pressColor={isEndDaySelected ? 'red.700' : 'pink.500'}
+                    pressColor='red.700'
                     mx={6}
                     onPress={handleConfirmRent}
+                    disabled={!isEndDaySelected}
                 />
             </VStack>
         </VStack>
