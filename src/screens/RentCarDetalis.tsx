@@ -9,6 +9,8 @@ import RoutesNavigationProps from 'src/@types/routes';
 import CarDetailsComponent from '@components/CarDetailsComponent';
 import Button from '@components/Button';
 import CarDTOType from 'src/dtos/CarDTO';
+import registerCarInScheduleList from '../functions/registerCarInScheduleList';
+import registerCarInScheduleListByUser from '../functions/registerCarInScheduleListByUser';
 
 type RouteParams = {
     car: CarDTOType;
@@ -32,56 +34,14 @@ const RentCarDetails: React.FC = () => {
 
         await api
             .get(`/schedules_bycars/${car.id}`)
-            .then((response) => {
+            .then(async (response) => {
                 const unavailable_dates: string[] = [
                     ...response.data.unavailable_dates,
                     ...dates
                 ];
 
-                registerCarInScheduleList(unavailable_dates);
-            })
-            .catch((error) => {
-                Alert.alert('Confirmar aluguel', 'não foi possível confirmar o aluguel');
-
-                if (error.request)
-                    console.log(error.request);
-                if (error.response)
-                    console.log(error.response);
-
-                console.log(error);
-                setIsLoading(false);
-            });
-    }
-
-    const registerCarInScheduleList: (invalidDates: any) => Promise<void> = async (invalidDates) => {
-        await api
-            .put(`/schedules_bycars/${car.id}`, {
-                id: car.id,
-                unavailable_dates: invalidDates
-            })
-            .then(() => {
-                registerCarInScheduleListByUser();
-            })
-            .catch((error) => {
-                Alert.alert('Confirmar aluguel', 'não foi possível confirmar o aluguel');
-
-                if (error.request)
-                    return console.log(error.request);
-                if (error.response)
-                    return console.log(error.response);
-
-                console.log(error);
-                setIsLoading(false);
-            });
-    }
-
-    const registerCarInScheduleListByUser: () => Promise<void> = async () => {
-        await api
-            .post(`schedules_byuser`, {
-                user_id: 1,
-                car
-            })
-            .then(() => {
+                await registerCarInScheduleList(unavailable_dates, car.id);
+                await registerCarInScheduleListByUser(car, 1);
                 navigate('concluded_schedule');
             })
             .catch((error) => {
@@ -94,16 +54,8 @@ const RentCarDetails: React.FC = () => {
 
                 console.log(error);
             })
-            .finally(() => {
-                setIsLoading(false);
-            });
+            .finally(() => setIsLoading(false));
     }
-
-    // const testing: () => Promise<void> = async () => {
-    //     registerCarInScheduleListByUser().then(() => {
-
-    //     })
-    // }
 
     return (
         <CarDetailsComponent
