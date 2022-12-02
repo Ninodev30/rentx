@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { HStack, Text, VStack, Icon, Box } from 'native-base';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -66,6 +66,7 @@ const RentCarDetails: React.FC = () => {
                     color='green.500'
                     pressColor='green.700'
                     onPress={handleConcludedSchedule}
+                    isLoading={isLoading}
                     disabled={isLoading}
                 />
             }

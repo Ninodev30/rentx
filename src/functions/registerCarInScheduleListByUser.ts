@@ -3,7 +3,7 @@ import api from "../services/api";
 
 type Props = (car: CarDTOType, user_id: number) => Promise<void>;
 
-const registerCarInScheduleListByUser: Props = async (user_id, car) => {
+const registerCarInScheduleListByUser: Props = async (car, user_id) => {
     await api
         .post(`schedules_byuser`, {
             user_id: user_id,

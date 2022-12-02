@@ -14,32 +14,34 @@ type Props = IStackProps & {
 }
 
 const Car: React.FC<Props> = ({ onPress, footer, data, ...rest }) => {
+    const { brand, fuel_type, name, rent, thumbnail } = data;
+
     let fuelTypeIcon: React.FC<SvgProps> = GasolineIcon;
-    if (data.fuel_type.includes('electric'))
+    if (fuel_type.includes('electric'))
         fuelTypeIcon = ElectricIcon;
-    if (data.fuel_type.includes('hybrid'))
+    if (fuel_type.includes('hybrid'))
         fuelTypeIcon = HybridIcon;
 
     return (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity disabled={footer} onPress={onPress}>
             <VStack {...rest} >
                 <HStack h={32} p={6} justifyContent='space-between' rounded='sm' bgColor='white'>
                     <VStack justifyContent='space-between'>
                         <VStack>
                             <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
-                                {data.brand}
+                                {brand}
                             </Text>
                             <Heading fontFamily='mono' fontWeight='medium' fontSize='md' color='gray.700'>
-                                {data.name}
+                                {name}
                             </Heading>
                         </VStack>
                         <HStack w={24} justifyContent='space-between' alignItems='center'>
                             <VStack>
                                 <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500'>
-                                    {data.rent.period}
+                                    {rent.period}
                                 </Text>
                                 <Text fontFamily='mono' fontWeight='medium' fontSize='md' color='red.500'>
-                                    {`R$ ${data.rent.price}`}
+                                    {`R$ ${rent.price}`}
                                 </Text>
                             </VStack>
                             <Icon
@@ -49,7 +51,7 @@ const Car: React.FC<Props> = ({ onPress, footer, data, ...rest }) => {
                         </HStack>
                     </VStack>
                     <Image
-                        source={{ uri: data.thumbnail }}
+                        source={{ uri: thumbnail }}
                         resizeMode='contain'
                         alt='Car photo'
                         width={40}
