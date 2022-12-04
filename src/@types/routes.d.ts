@@ -3,6 +3,7 @@ import RentalPeriodType from './rentalPeriod';
 import CarDTOType from 'src/dtos/CarDTO';
 
 export type RoutesProps = {
+    splash: undefined;
     home: undefined;
     car_details: {
         car: CarDTOType;

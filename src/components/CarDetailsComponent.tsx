@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { Dimensions, ViewToken } from 'react-native';
 import { SvgProps } from 'react-native-svg';
-import { Heading, VStack, HStack, Image, ScrollView, Text, Box } from 'native-base';
+import { Heading, VStack, HStack, Image, ScrollView, Text, Box, FlatList } from 'native-base';
 import CarDTOType from 'src/dtos/CarDTO';
 import BackIcon from '@components/BackIcon';
 import StatusBar from '@components/StatusBar';
@@ -21,6 +22,13 @@ type Props = {
     additionalInfo: JSX.Element;
 }
 
+type ChangeImageProps = {
+    viewableItems: ViewToken[];
+    changed: ViewToken[];
+}
+
+type UseRefProps = (info: ChangeImageProps) => void;
+
 const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additionalInfo }) => {
     const [photoSelected, setPhotoSelected] = useState<number>(0);
     const { name, brand, rent, photos, accessories, fuel_type } = car as CarDTOType;
@@ -31,10 +39,15 @@ const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additional
     if (fuel_type.includes('hybrid'))
         fuelTypeIcon = HybridIcon;
 
+    const indexChanged: React.MutableRefObject<UseRefProps> = useRef<UseRefProps>((info) => {
+        const index: number = info.viewableItems[0].index!
+        setPhotoSelected(index);
+    });
+
     const renderMiniBoxes: () => JSX.Element[] = () => (
-        photos.map((value: string, index: number) => (
+        photos.map((_, index: number) => (
             <Box
-                key={value}
+                key={index}
                 w='1.5' h='1.5' m={1} borderRadius='full'
                 bgColor={index === photoSelected ? 'gray.700' : 'gray.400'}
             />
@@ -54,14 +67,25 @@ const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additional
                         {renderMiniBoxes()}
                     </HStack>
                 </HStack>
-                <Image
-                    source={{ uri: photos[0] }}
-                    resizeMode='contain'
-                    alt='Car photo'
-                    width={72}
-                    height={32}
-                    my={8}
-                    alignSelf='center'
+                <FlatList
+                    data={photos}
+                    keyExtractor={item => item}
+                    renderItem={({ item }) => (
+                        <Box
+                            h={32} my={8} alignItems='center' justifyContent='center'
+                            style={{ width: Dimensions.get('window').width }}
+                        >
+                            <Image
+                                source={{ uri: item }}
+                                resizeMode='contain'
+                                alt='car photo'
+                                w={72} h={32}
+                            />
+                        </Box>
+                    )}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    onViewableItemsChanged={indexChanged.current}
                 />
             </VStack>
             <ScrollView>
