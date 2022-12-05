@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { Dimensions, ViewToken } from 'react-native';
 import { SvgProps } from 'react-native-svg';
-import { Heading, VStack, HStack, Image, ScrollView, Text, Box, FlatList } from 'native-base';
+import { Heading, VStack, HStack, Text, Box, FlatList } from 'native-base';
+import Animated, { useSharedValue, SharedValue, useAnimatedScrollHandler, useAnimatedStyle, interpolate, Extrapolate } from 'react-native-reanimated';
 import CarDTOType from 'src/dtos/CarDTO';
 import BackIcon from '@components/BackIcon';
 import StatusBar from '@components/StatusBar';
@@ -29,9 +30,48 @@ type ChangeImageProps = {
 
 type UseRefProps = (info: ChangeImageProps) => void;
 
+type AnimatedStylesTypeProps = {
+    header: {
+        height: number;
+    };
+    sliderCar: {
+        opacity: number;
+    };
+}
+
 const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additionalInfo }) => {
     const [photoSelected, setPhotoSelected] = useState<number>(0);
     const { name, brand, rent, photos, accessories, fuel_type } = car as CarDTOType;
+
+    const scrollY: SharedValue<number> = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler(event => {
+        scrollY.value = event.contentOffset.y;
+        console.log(event.contentOffset.y);
+    });
+
+    const AnimatedStyles: AnimatedStylesTypeProps = {
+        header: useAnimatedStyle(() => {
+            return {
+                height: interpolate(
+                    scrollY.value,
+                    [0, 200],
+                    [200, 70],
+                    Extrapolate.CLAMP
+                )
+            }
+        }),
+        sliderCar: useAnimatedStyle(() => {
+            return {
+                opacity: interpolate(
+                    scrollY.value,
+                    [0, 150],
+                    [1, 0],
+                    Extrapolate.CLAMP
+                )
+            }
+        })
+    }
 
     let fuelTypeIcon: React.FC<SvgProps> = GasolineIcon;
     if (fuel_type.includes('electric'))
@@ -57,7 +97,7 @@ const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additional
     return (
         <VStack flex={1} px={4} pt={16} pb={8} bgColor='white' justifyContent='space-between'>
             <StatusBar variant='dark' />
-            <VStack>
+            <Animated.View style={AnimatedStyles.header}>
                 <HStack w='full' justifyContent='space-between' alignItems='center'>
                     <BackIcon
                         variant='dark'
@@ -75,11 +115,10 @@ const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additional
                             h={32} my={8} alignItems='center' justifyContent='center'
                             style={{ width: Dimensions.get('window').width }}
                         >
-                            <Image
+                            <Animated.Image
                                 source={{ uri: item }}
                                 resizeMode='contain'
-                                alt='car photo'
-                                w={72} h={32}
+                                style={[AnimatedStyles.sliderCar, { width: 288, height: 132 }]}
                             />
                         </Box>
                     )}
@@ -87,8 +126,12 @@ const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additional
                     showsHorizontalScrollIndicator={false}
                     onViewableItemsChanged={indexChanged.current}
                 />
-            </VStack>
-            <ScrollView>
+            </Animated.View>
+            <Animated.ScrollView
+                showsVerticalScrollIndicator={false}
+                onScroll={scrollHandler}
+                scrollEventThrottle={16} // how many frames render for second
+            >
                 <HStack w='full' h={10} px={2} justifyContent='space-between' alignItems='center'>
                     <VStack justifyContent='space-between'>
                         <Text fontFamily='mono' fontWeight='medium' fontSize='xs' color='gray.500' textTransform='uppercase'>
@@ -120,7 +163,7 @@ const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additional
                     </HStack>
                 </VStack>
                 {additionalInfo}
-            </ScrollView>
+            </Animated.ScrollView>
             {buttonComponent}
         </VStack>
     );
