@@ -7,8 +7,8 @@ import CarDTOType from 'src/dtos/CarDTO';
 import Highlight from "@components/Highlight";
 import StatusBar from "@components/StatusBar";
 import Car from '@components/Car';
-import Loading from '@components/Loading';
 import ListEmpty from '@components/ListEmpty';
+import LoadAnimation from '@components/LoadAnimation';
 
 type SchedulesTypeProps = {
     user_id: number;
@@ -67,7 +67,7 @@ const Schedules: React.FC = () => {
                     </Text>
                 </HStack>
                 {isLoading ?
-                    <Loading />
+                    <LoadAnimation />
                     :
                     <FlatList
                         data={schedules}

@@ -11,8 +11,8 @@ import api from '../services/api';
 import Logo from '@assets/logo.svg';
 import Car from '@components/Car';
 import StatusBar from '@components/StatusBar';
-import Loading from '@components/Loading';
 import ListEmpty from '@components/ListEmpty';
+import LoadAnimation from '@components/LoadAnimation';
 
 const ButtonAnimated = Animated.createAnimatedComponent(Button);
 
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                 </Text>
             </HStack>
             {isLoading ?
-                <Loading /> :
+                <LoadAnimation /> :
                 <FlatList
                     data={carList}
                     keyExtractor={(item, index) => index + item.id}

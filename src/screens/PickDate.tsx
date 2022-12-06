@@ -8,12 +8,12 @@ import getPlataformDate from '@utils/getPlataformDate';
 import RoutesNavigationProps from 'src/@types/routes';
 import SelectedDatesProps from 'src/@types/selectedDates';
 import RentalPeriodType from 'src/@types/rentalPeriod';
+import generateInterval from '../functions/calendar/generateInterval';
 import Calendar from '@components/Calendar';
-import generateInterval from '@components/Calendar/generateInterval';
-import ArrowIcon from '@assets/arrow.svg';
 import Highlight from '@components/Highlight';
 import StatusBar from '@components/StatusBar';
 import Button from '@components/Button';
+import ArrowIcon from '@assets/arrow.svg';
 
 type RouteParams = {
     car: CarDTOType;

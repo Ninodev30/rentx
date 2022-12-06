@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons'
 import { Icon, ITheme, useTheme } from 'native-base';
 import { Calendar as ReactNativeCalendar, CalendarProps, LocaleConfig } from 'react-native-calendars';
-import { ptBR } from './localeConfig';
+import { ptBR } from '../functions/calendar/localeConfig';
 
 LocaleConfig.locales['pt-br'] = ptBR;
 LocaleConfig.defaultLocale = 'pt-br';
