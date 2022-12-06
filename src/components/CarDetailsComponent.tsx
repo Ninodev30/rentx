@@ -47,7 +47,6 @@ const CarDetailsComponent: React.FC<Props> = ({ car, buttonComponent, additional
 
     const scrollHandler = useAnimatedScrollHandler(event => {
         scrollY.value = event.contentOffset.y;
-        console.log(event.contentOffset.y);
     });
 
     const AnimatedStyles: AnimatedStylesTypeProps = {

@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
   return (
     <NativeBaseProvider theme={theme}>
-      {fontsLoaded ? <Routes   /> : <ActivityIndicator />}
+      {fontsLoaded ? <Routes /> : <ActivityIndicator />}
     </NativeBaseProvider>
   );
 }

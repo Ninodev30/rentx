@@ -20,6 +20,9 @@ const AppRoutes: React.FC = () => {
             <Screen
                 name='home'
                 component={Home}
+                options={{
+                   gestureEnabled: false
+                }}
             />
             <Screen
                 name='car_details'
